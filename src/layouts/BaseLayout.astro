@@ -10,6 +10,7 @@ const { title, description } = Astro.props;
 const siteTitle = '我的博客';
 const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 const base = import.meta.env.BASE_URL;
+const year = new Date().getFullYear();
 ---
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -20,17 +21,47 @@ const base = import.meta.env.BASE_URL;
     {description && <meta name="description" content={description} />}
     <title>{pageTitle}</title>
     <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fragment+Mono&family=Instrument+Sans:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <body>
-    <header class="site-header">
-      <div class="inner">
-        <nav class="site-nav">
-          <a href={base}>{siteTitle}</a>
-        </nav>
+  <body class="bg-sand text-charcoal font-sans min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-charcoal border-b-2 border-charcoal sticky top-0 z-50">
+      <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <a
+          href={base}
+          class="font-mono text-sand text-xs uppercase tracking-[0.25em] hover:text-accent transition-colors duration-150"
+        >
+          {siteTitle}
+        </a>
+        <span class="font-mono text-muted text-xs uppercase tracking-[0.2em] select-none">
+          Blog
+        </span>
       </div>
     </header>
-    <main>
+
+    <!-- Main content -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-6 py-16">
       <slot />
     </main>
+
+    <!-- Footer -->
+    <footer class="border-t-2 border-charcoal py-7 mt-auto">
+      <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
+        <a
+          href={base}
+          class="font-mono text-xs text-muted uppercase tracking-widest hover:text-charcoal transition-colors duration-150"
+        >
+          {siteTitle}
+        </a>
+        <span class="font-mono text-xs text-muted uppercase">© {year}</span>
+      </div>
+    </footer>
+
   </body>
 </html>

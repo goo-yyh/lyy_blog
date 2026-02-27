@@ -8,6 +8,7 @@ interface Props {
 
 const { post } = Astro.props;
 const { title, date, description } = post.data;
+const base = import.meta.env.BASE_URL;
 const formattedDate = date.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
@@ -16,13 +17,38 @@ const formattedDate = date.toLocaleDateString('zh-CN', {
 ---
 <BaseLayout title={title} description={description}>
   <article>
-    <header class="post-header">
-      <h1>{title}</h1>
-      {description && <p class="description">{description}</p>}
-      <time datetime={date.toISOString()}>{formattedDate}</time>
+
+    <!-- Back link -->
+    <a
+      href={base}
+      class="inline-flex items-center gap-2 font-mono text-xs text-muted uppercase tracking-[0.2em] hover:text-charcoal transition-colors duration-150 mb-12 group"
+    >
+      <span class="inline-block group-hover:-translate-x-1 transition-transform duration-150">←</span>
+      All Posts
+    </a>
+
+    <!-- Post header -->
+    <header class="mb-12 pb-10 border-b-2 border-charcoal">
+      <time
+        datetime={date.toISOString()}
+        class="font-mono text-xs text-muted uppercase tracking-[0.25em] block mb-4"
+      >
+        {formattedDate}
+      </time>
+      <h1 class="font-mono text-[clamp(2rem,6vw,4rem)] uppercase leading-none tracking-tight text-charcoal">
+        {title}
+      </h1>
+      {description && (
+        <p class="mt-5 text-lg text-charcoal/60 font-sans max-w-xl leading-relaxed">
+          {description}
+        </p>
+      )}
     </header>
-    <div class="prose">
+
+    <!-- Prose content -->
+    <div class="prose prose-stone max-w-2xl">
       <slot />
     </div>
+
   </article>
 </BaseLayout>
