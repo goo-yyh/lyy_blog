@@ -2,6 +2,7 @@
 title: Hello World
 date: 2026-02-27
 description: 第一篇博客文章，记录博客的诞生。
+category: 胡说八道
 ---
 
 欢迎来到我的博客！这是第一篇文章。

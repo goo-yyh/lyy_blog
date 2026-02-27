@@ -50,6 +50,11 @@ const base = import.meta.env.BASE_URL;
 
             <!-- Content -->
             <div class="flex-1 min-w-0">
+              {post.data.category && (
+                <span class="font-mono text-[10px] uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
+                  {post.data.category}
+                </span>
+              )}
               <h2 class="font-mono text-sm uppercase tracking-wide text-charcoal leading-snug">
                 {post.data.title}
               </h2>

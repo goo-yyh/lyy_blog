@@ -2,6 +2,7 @@
 title: Astro 入门指南
 date: 2026-02-20
 description: 从零搭建 Astro 博客的关键概念与实践总结。
+category: 架构分析
 ---
 
 Astro 是一个以内容为中心的静态站点生成器，其核心理念是「默认零 JavaScript」——只在真正需要交互时才向浏览器发送脚本。
