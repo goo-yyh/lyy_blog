@@ -1,6 +1,6 @@
 ---
 title: 前端架构演进：从 jQuery 到 Islands
-date: 2026-01-29
+date: 2024-12-03
 description: 二十年前端架构演进史，以及为什么 Islands 架构让我重新兴奋起来。
 category: 架构分析
 ---

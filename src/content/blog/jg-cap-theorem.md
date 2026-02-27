@@ -1,6 +1,6 @@
 ---
 title: 分布式系统的 CAP 困境
-date: 2026-02-05
+date: 2025-10-18
 description: CAP 定理是什么、为什么重要、以及在实际系统设计中如何取舍。
 category: 架构分析
 ---

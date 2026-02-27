@@ -1,6 +1,6 @@
 ---
 title: 我和 AI 的爱恨情仇
-date: 2026-01-31
+date: 2025-08-05
 description: 从抵触到依赖，一个程序员与 AI 工具相处一年后的真实感受。
 category: 胡说八道
 ---

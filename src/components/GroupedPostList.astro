@@ -32,11 +32,11 @@ for (const [, byMonth] of sortedYears) {
 {sortedYears.map(([year, byMonth]) => {
   const sortedMonths = [...byMonth.entries()].sort((a, b) => b[0] - a[0]);
   return (
-    <section class="mb-14">
+    <section class="mb-10">
 
       <!-- Year -->
-      <div class="flex items-center mb-8">
-        <h2 class="font-mono text-sm tracking-[0.2em] text-charcoal border-2 border-charcoal px-4 py-1.5 shrink-0">
+      <div class="flex items-center mb-6">
+        <h2 class="font-mono text-sm tracking-[0.2em] text-charcoal pr-4 shrink-0">
           {year}
         </h2>
         <div class="flex-1 h-0.5 bg-charcoal"></div>
