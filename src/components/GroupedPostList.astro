@@ -35,9 +35,12 @@ for (const [, byMonth] of sortedYears) {
     <section class="mb-14">
 
       <!-- Year -->
-      <h2 class="font-mono text-2xl tracking-tight text-charcoal mb-8 pb-4 border-b-2 border-charcoal">
-        {year}
-      </h2>
+      <div class="flex items-center mb-8">
+        <h2 class="font-mono text-sm tracking-[0.2em] text-charcoal border-2 border-charcoal bg-accent px-4 py-1.5 shrink-0">
+          {year}
+        </h2>
+        <div class="flex-1 h-0.5 bg-charcoal"></div>
+      </div>
 
       {sortedMonths.map(([month, monthPosts]) => (
         <div class="mb-8">
