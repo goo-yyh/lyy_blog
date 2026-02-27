@@ -1,0 +1,104 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  showCategory?: boolean;
+}
+
+const { posts, showCategory = false } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+// Group: year → month → posts[]
+const grouped = new Map<number, Map<number, CollectionEntry<'blog'>[]>>();
+for (const post of posts) {
+  const year = post.data.date.getFullYear();
+  const month = post.data.date.getMonth() + 1;
+  if (!grouped.has(year)) grouped.set(year, new Map());
+  const byMonth = grouped.get(year)!;
+  if (!byMonth.has(month)) byMonth.set(month, []);
+  byMonth.get(month)!.push(post);
+}
+
+// Sort years desc, months desc
+const sortedYears = [...grouped.entries()].sort((a, b) => b[0] - a[0]);
+for (const [, byMonth] of sortedYears) {
+  for (const [, monthPosts] of byMonth) {
+    monthPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  }
+}
+---
+
+{sortedYears.map(([year, byMonth]) => {
+  const sortedMonths = [...byMonth.entries()].sort((a, b) => b[0] - a[0]);
+  return (
+    <section class="mb-14">
+
+      <!-- Year -->
+      <h2 class="font-mono text-2xl tracking-tight text-charcoal mb-8 pb-4 border-b-2 border-charcoal">
+        {year}
+      </h2>
+
+      {sortedMonths.map(([month, monthPosts]) => (
+        <div class="mb-8">
+
+          <!-- Month -->
+          <div class="flex items-center gap-3 mb-3">
+            <h3 class="font-mono text-xs text-muted uppercase tracking-[0.3em] shrink-0">
+              {month} 月
+            </h3>
+            <div class="flex-1 h-px bg-charcoal/15"></div>
+            <span class="font-mono text-[10px] text-muted/60">{monthPosts.length}</span>
+          </div>
+
+          <!-- Posts -->
+          <ul class="space-y-2 pl-0">
+            {monthPosts.map(post => {
+              const day = post.data.date.toLocaleDateString('zh-CN', {
+                month: 'long',
+                day: 'numeric',
+              });
+              return (
+                <li>
+                  <a
+                    href={`${base}posts/${post.id}/`}
+                    class="group flex items-start gap-5 px-5 py-4
+                           bg-paper border-2 border-charcoal
+                           shadow-[4px_4px_0px_#383838]
+                           hover:bg-accent hover:shadow-[6px_6px_0px_#383838]
+                           hover:-translate-x-0.5 hover:-translate-y-0.5
+                           transition-all duration-100 block"
+                  >
+                    <div class="flex-1 min-w-0">
+                      {showCategory && post.data.category && (
+                        <span class="font-mono text-[10px] uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
+                          {post.data.category}
+                        </span>
+                      )}
+                      <h4 class="font-mono text-sm uppercase tracking-wide text-charcoal leading-snug">
+                        {post.data.title}
+                      </h4>
+                      {post.data.description && (
+                        <p class="mt-1.5 text-sm text-muted group-hover:text-charcoal/60 leading-relaxed">
+                          {post.data.description}
+                        </p>
+                      )}
+                    </div>
+                    <time
+                      datetime={post.data.date.toISOString()}
+                      class="font-mono text-xs text-muted whitespace-nowrap group-hover:text-charcoal/60 shrink-0 pt-0.5"
+                    >
+                      {day}
+                    </time>
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+
+        </div>
+      ))}
+
+    </section>
+  );
+})}

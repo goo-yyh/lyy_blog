@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import { CATEGORIES, type CategorySlug } from '../../content.config';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import GroupedPostList from '../../components/GroupedPostList.astro';
 
 export function getStaticPaths() {
   return Object.keys(CATEGORIES).map(slug => ({ params: { slug } }));
@@ -14,12 +15,9 @@ const allPosts = await getCollection('blog');
 const posts = allPosts
   .filter(p => p.data.category === categoryName)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title={categoryName}>
 
-  <!-- Category header -->
   <div class="mb-12 pb-10 border-b-2 border-charcoal">
     <p class="font-mono text-xs text-muted uppercase tracking-[0.35em] mb-3">
       {posts.length} Articles
@@ -29,52 +27,10 @@ const base = import.meta.env.BASE_URL;
     </h1>
   </div>
 
-  <!-- Post list -->
   {posts.length === 0 ? (
     <p class="font-mono text-sm text-muted uppercase tracking-widest">暂无文章</p>
   ) : (
-    <ul class="space-y-3">
-      {posts.map((post, i) => {
-        const formattedDate = post.data.date.toLocaleDateString('zh-CN', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        });
-        return (
-          <li>
-            <a
-              href={`${base}posts/${post.id}/`}
-              class="group flex items-start gap-5 p-6
-                     bg-paper border-2 border-charcoal
-                     shadow-[4px_4px_0px_#383838]
-                     hover:bg-accent hover:shadow-[6px_6px_0px_#383838]
-                     hover:-translate-x-0.5 hover:-translate-y-0.5
-                     transition-all duration-100 block"
-            >
-              <span class="font-mono text-xs text-muted group-hover:text-charcoal/40 pt-0.5 w-6 shrink-0 select-none">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <div class="flex-1 min-w-0">
-                <h2 class="font-mono text-sm uppercase tracking-wide text-charcoal leading-snug">
-                  {post.data.title}
-                </h2>
-                {post.data.description && (
-                  <p class="mt-1.5 text-sm text-muted group-hover:text-charcoal/60 leading-relaxed">
-                    {post.data.description}
-                  </p>
-                )}
-              </div>
-              <time
-                datetime={post.data.date.toISOString()}
-                class="font-mono text-xs text-muted whitespace-nowrap group-hover:text-charcoal/60 shrink-0 pt-0.5"
-              >
-                {formattedDate}
-              </time>
-            </a>
-          </li>
-        );
-      })}
-    </ul>
+    <GroupedPostList posts={posts} showCategory={false} />
   )}
 
 </BaseLayout>
