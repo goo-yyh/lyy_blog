@@ -6,14 +6,46 @@ const posts = await getCollection('blog');
 const sorted = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const recent = sorted.slice(0, 10);
 const base = import.meta.env.BASE_URL;
+
+// Fetch star count at build time
+let stars = 0;
+try {
+  const res = await fetch('https://api.github.com/repos/goo-yyh/lyy_blog');
+  if (res.ok) {
+    const data = await res.json();
+    stars = data.stargazers_count ?? 0;
+  }
+} catch {}
 ---
 <BaseLayout title="我的博客">
 
   <!-- Introduction -->
   <div class="mb-12 pb-10 border-b-2 border-charcoal">
-    <p class="text-charcoal/70 leading-relaxed max-w-xl">
+    <p class="text-charcoal/70 leading-relaxed max-w-xl mb-6">
       记录技术思考与日常随笔，关注 Web 开发、工具效率与读书笔记。
     </p>
+    <!-- GitHub Star button -->
+    <a
+      href="https://github.com/goo-yyh/lyy_blog"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center border-2 border-charcoal bg-paper
+             shadow-[4px_4px_0px_#383838]
+             hover:bg-accent hover:shadow-[6px_6px_0px_#383838]
+             hover:-translate-x-0.5 hover:-translate-y-0.5
+             transition-all duration-100 font-mono text-sm"
+    >
+      <span class="flex items-center gap-2 px-4 py-2">
+        <!-- GitHub icon -->
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        Star
+      </span>
+      <span class="border-l-2 border-charcoal px-3 py-2 tabular-nums">
+        {stars}
+      </span>
+    </a>
   </div>
 
   <!-- Post list header -->
