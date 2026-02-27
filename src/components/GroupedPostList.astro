@@ -6,8 +6,11 @@ interface Props {
   showCategory?: boolean;
 }
 
-const { posts, showCategory = false } = Astro.props;
+const { posts, showCategory = true } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+// Global index map: post.id → 1-based index
+const indexMap = new Map(posts.map((p, i) => [p.id, i + 1]));
 
 // Group: year → month → posts[]
 const grouped = new Map<number, Map<number, CollectionEntry<'blog'>[]>>();
@@ -20,7 +23,7 @@ for (const post of posts) {
   byMonth.get(month)!.push(post);
 }
 
-// Sort years desc, months desc
+// Sort years desc, months desc, posts within month desc by date
 const sortedYears = [...grouped.entries()].sort((a, b) => b[0] - a[0]);
 for (const [, byMonth] of sortedYears) {
   for (const [, monthPosts] of byMonth) {
@@ -55,26 +58,33 @@ for (const [, byMonth] of sortedYears) {
           </div>
 
           <!-- Posts -->
-          <ul class="space-y-2 pl-0">
+          <ul class="space-y-2">
             {monthPosts.map(post => {
               const day = post.data.date.toLocaleDateString('zh-CN', {
                 month: 'long',
                 day: 'numeric',
               });
+              const idx = indexMap.get(post.id)!;
               return (
                 <li>
                   <a
                     href={`${base}posts/${post.id}/`}
-                    class="group flex items-start gap-5 px-5 py-4
+                    class="group flex items-start gap-5 p-6
                            bg-paper border-2 border-charcoal
                            shadow-[4px_4px_0px_#383838]
                            hover:bg-accent hover:shadow-[6px_6px_0px_#383838]
                            hover:-translate-x-0.5 hover:-translate-y-0.5
                            transition-all duration-100 block"
                   >
+                    <!-- Index -->
+                    <span class="font-mono text-xs text-muted group-hover:text-charcoal/40 pt-0.5 w-6 shrink-0 select-none">
+                      {String(idx).padStart(2, '0')}
+                    </span>
+
+                    <!-- Content -->
                     <div class="flex-1 min-w-0">
                       {showCategory && post.data.category && (
-                        <span class="font-mono text-[10px] uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
+                        <span class="font-mono text-xs uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
                           {post.data.category}
                         </span>
                       )}
@@ -87,6 +97,8 @@ for (const [, byMonth] of sortedYears) {
                         </p>
                       )}
                     </div>
+
+                    <!-- Date -->
                     <time
                       datetime={post.data.date.toISOString()}
                       class="font-mono text-xs text-muted whitespace-nowrap group-hover:text-charcoal/60 shrink-0 pt-0.5"

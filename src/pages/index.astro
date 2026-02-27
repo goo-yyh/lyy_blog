@@ -31,6 +31,7 @@ try {
       <!-- 右：介绍文字 + Star 按钮 -->
       <div class="flex flex-col flex-1 min-h-full">
         <div class="text-charcoal text-base leading-relaxed space-y-3 flex-1">
+          <p>2026 年 2 月 27 日</p>
           <p>大家好，我是油油，一个菜鸡小前端，这个博客主要用来记录在 AI 时代自己的所学所思所感。</p>
           <ul class="space-y-1.5">
             <li><span class="font-mono uppercase tracking-widest">胡说八道</span>：自己的一些想法，或者日常分享</li>
@@ -104,7 +105,7 @@ try {
             <!-- Content -->
             <div class="flex-1 min-w-0">
               {post.data.category && (
-                <span class="font-mono text-[10px] uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
+                <span class="font-mono text-xs uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
                   {post.data.category}
                 </span>
               )}
