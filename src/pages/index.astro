@@ -17,7 +17,7 @@ const base = import.meta.env.BASE_URL;
       });
       return (
         <li>
-          <a href={`${base}posts/${post.id}`}>{post.data.title}</a>
+          <a href={`${base}posts/${post.id}/`}>{post.data.title}</a>
           <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
         </li>
       );
