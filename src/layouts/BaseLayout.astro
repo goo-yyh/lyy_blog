@@ -31,7 +31,7 @@ const year = new Date().getFullYear();
   <body class="bg-sand text-charcoal font-sans min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-sand border-b-2 border-charcoal sticky top-0 z-50">
+    <header class="bg-sky border-b-2 border-charcoal sticky top-0 z-50">
       <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
         <a
           href={base}
@@ -39,9 +39,12 @@ const year = new Date().getFullYear();
         >
           {siteTitle}
         </a>
-        <span class="font-mono text-muted text-xs uppercase tracking-[0.2em] select-none">
+        <a
+          href={base}
+          class="font-mono text-charcoal text-xs uppercase tracking-[0.2em] hover:text-sky-deep transition-colors duration-150"
+        >
           Blog
-        </span>
+        </a>
       </div>
     </header>
 
