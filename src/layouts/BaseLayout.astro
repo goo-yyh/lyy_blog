@@ -10,7 +10,6 @@ const { title, description } = Astro.props;
 const siteTitle = '我的博客';
 const pageTitle = title === siteTitle ? siteTitle : `${title} | ${siteTitle}`;
 const base = import.meta.env.BASE_URL;
-const year = new Date().getFullYear();
 ---
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -31,7 +30,7 @@ const year = new Date().getFullYear();
   <body class="bg-sand text-charcoal font-sans min-h-screen flex flex-col">
 
     <!-- Header -->
-    <header class="bg-sky border-b-2 border-charcoal sticky top-0 z-50">
+    <header class="bg-accent border-b-2 border-charcoal sticky top-0 z-50">
       <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
         <a
           href={base}
@@ -53,18 +52,6 @@ const year = new Date().getFullYear();
       <slot />
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t-2 border-charcoal py-7 mt-auto">
-      <div class="max-w-5xl mx-auto px-6 flex items-center justify-between">
-        <a
-          href={base}
-          class="font-mono text-xs text-muted uppercase tracking-widest hover:text-charcoal transition-colors duration-150"
-        >
-          {siteTitle}
-        </a>
-        <span class="font-mono text-xs text-muted uppercase">© {year}</span>
-      </div>
-    </footer>
 
-  </body>
+</body>
 </html>
