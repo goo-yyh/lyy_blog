@@ -1,31 +1,26 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const posts = await getCollection('blog');
 const sorted = posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const recent = sorted.slice(0, 10);
 const base = import.meta.env.BASE_URL;
 ---
-<BaseLayout title="我的博客">
+<BaseLayout title="所有文章">
 
-  <!-- Introduction -->
+  <!-- Header -->
   <div class="mb-12 pb-10 border-b-2 border-charcoal">
-    <p class="text-charcoal/70 leading-relaxed max-w-xl">
-      记录技术思考与日常随笔，关注 Web 开发、工具效率与读书笔记。
+    <p class="font-mono text-xs text-muted uppercase tracking-[0.35em] mb-3">
+      {sorted.length} Articles
     </p>
-  </div>
-
-  <!-- Post list header -->
-  <div class="mb-6 flex items-center justify-between">
-    <p class="font-mono text-xs text-muted uppercase tracking-[0.35em]">
-      最近文章
-    </p>
+    <h1 class="font-mono text-3xl uppercase tracking-tight text-charcoal">
+      所有文章
+    </h1>
   </div>
 
   <!-- Post list -->
   <ul class="space-y-3">
-    {recent.map((post, i) => {
+    {sorted.map((post, i) => {
       const formattedDate = post.data.date.toLocaleDateString('zh-CN', {
         year: 'numeric',
         month: 'long',
@@ -40,15 +35,11 @@ const base = import.meta.env.BASE_URL;
                    shadow-[4px_4px_0px_#383838]
                    hover:bg-accent hover:shadow-[6px_6px_0px_#383838]
                    hover:-translate-x-0.5 hover:-translate-y-0.5
-                   transition-all duration-100
-                   block"
+                   transition-all duration-100 block"
           >
-            <!-- Index number -->
             <span class="font-mono text-xs text-muted group-hover:text-charcoal/40 pt-0.5 w-6 shrink-0 select-none">
               {String(i + 1).padStart(2, '0')}
             </span>
-
-            <!-- Content -->
             <div class="flex-1 min-w-0">
               {post.data.category && (
                 <span class="font-mono text-[10px] uppercase tracking-widest text-muted group-hover:text-charcoal/50 block mb-1">
@@ -64,8 +55,6 @@ const base = import.meta.env.BASE_URL;
                 </p>
               )}
             </div>
-
-            <!-- Date -->
             <time
               datetime={post.data.date.toISOString()}
               class="font-mono text-xs text-muted whitespace-nowrap group-hover:text-charcoal/60 shrink-0 pt-0.5"
