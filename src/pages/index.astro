@@ -8,14 +8,11 @@ const base = import.meta.env.BASE_URL;
 ---
 <BaseLayout title="我的博客">
 
-  <!-- Page hero -->
-  <div class="mb-16 border-b-2 border-charcoal pb-10">
-    <p class="font-mono text-xs text-muted uppercase tracking-[0.35em] mb-4">
+  <!-- Page header -->
+  <div class="mb-10 border-b-2 border-charcoal pb-6">
+    <p class="font-mono text-xs text-muted uppercase tracking-[0.35em]">
       {sorted.length} Articles
     </p>
-    <h1 class="font-mono text-[clamp(3.5rem,12vw,8rem)] uppercase leading-none tracking-tighter text-charcoal select-none">
-      文章
-    </h1>
   </div>
 
   <!-- Post list -->
