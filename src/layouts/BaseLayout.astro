@@ -34,16 +34,15 @@ const base = import.meta.env.BASE_URL;
       <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
         <a
           href={base}
-          class="font-mono text-charcoal text-xs uppercase tracking-[0.25em] hover:text-sky-deep transition-colors duration-150"
+          class="font-mono text-charcoal text-xs uppercase tracking-[0.25em] border-b-2 border-transparent hover:border-charcoal transition-colors duration-150"
         >
-          {siteTitle}
+          首页
         </a>
-        <a
-          href={base}
-          class="font-mono text-charcoal text-xs uppercase tracking-[0.2em] hover:text-sky-deep transition-colors duration-150"
-        >
-          Blog
-        </a>
+        <nav class="flex items-center gap-6">
+          <a href="#" class="font-mono text-charcoal text-xs uppercase tracking-[0.2em] border-b-2 border-transparent hover:border-charcoal transition-colors duration-150">胡说八道</a>
+          <a href="#" class="font-mono text-charcoal text-xs uppercase tracking-[0.2em] border-b-2 border-transparent hover:border-charcoal transition-colors duration-150">架构分析</a>
+          <a href="#" class="font-mono text-charcoal text-xs uppercase tracking-[0.2em] border-b-2 border-transparent hover:border-charcoal transition-colors duration-150">创业鬼才</a>
+        </nav>
       </div>
     </header>
 
