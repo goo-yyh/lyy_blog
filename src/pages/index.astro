@@ -10,7 +10,11 @@ const base = import.meta.env.BASE_URL;
 // Fetch star count at build time
 let stars = 0;
 try {
-  const res = await fetch('https://api.github.com/repos/goo-yyh/lyy_blog');
+  const headers: Record<string, string> = { 'Accept': 'application/vnd.github.v3+json' };
+  if (import.meta.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `Bearer ${import.meta.env.GITHUB_TOKEN}`;
+  }
+  const res = await fetch('https://api.github.com/repos/goo-yyh/lyy_blog', { headers });
   if (res.ok) {
     const data = await res.json();
     stars = data.stargazers_count ?? 0;
