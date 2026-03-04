@@ -1,6 +1,6 @@
 ---
 title: PgDog 架构分析文档
-date: 2026-03-25
+date: 2026-03-05
 description: PgDog 架构分析文档 by claude opus
 category: 架构分析
 ---
