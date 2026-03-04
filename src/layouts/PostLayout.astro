@@ -51,4 +51,142 @@ const formattedDate = date.toLocaleDateString('zh-CN', {
     </div>
 
   </article>
+
+  <!-- Mermaid lightbox -->
+  <div id="mermaid-overlay">
+    <div id="mermaid-overlay-content"></div>
+  </div>
+
+  <script>
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+    mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+
+    document.querySelectorAll('pre[data-language="mermaid"]').forEach((pre) => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = pre.textContent || '';
+      pre.replaceWith(div);
+    });
+
+    await mermaid.run({ querySelector: '.mermaid' });
+
+    // Wrap each .mermaid in a container with a zoom button
+    document.querySelectorAll('.mermaid').forEach((el) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'mermaid-container';
+
+      const btn = document.createElement('button');
+      btn.className = 'mermaid-zoom-btn';
+      btn.setAttribute('aria-label', '查看大图');
+      btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>`;
+
+      el.parentNode!.insertBefore(wrapper, el);
+      wrapper.appendChild(el);
+      wrapper.appendChild(btn);
+
+      const overlay = document.getElementById('mermaid-overlay')!;
+      const content = document.getElementById('mermaid-overlay-content')!;
+
+      btn.addEventListener('click', () => {
+        const svg = el.querySelector('svg');
+        if (!svg) return;
+        content.innerHTML = svg.outerHTML;
+        const clone = content.querySelector('svg')!;
+        clone.removeAttribute('width');
+        clone.removeAttribute('style');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    const overlay = document.getElementById('mermaid-overlay')!;
+    const content = document.getElementById('mermaid-overlay-content')!;
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === content) {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+
+  <style is:global>
+    .mermaid {
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      padding: 12px;
+      background: white;
+      overflow-x: auto;
+    }
+    .mermaid svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .mermaid-container {
+      position: relative;
+      margin: 1.5em 0;
+    }
+    .mermaid-zoom-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #383838;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .mermaid-container:hover .mermaid-zoom-btn {
+      opacity: 0.7;
+    }
+    .mermaid-zoom-btn:hover {
+      opacity: 1 !important;
+    }
+
+    #mermaid-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(56, 56, 56, 0.6);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      cursor: zoom-out;
+    }
+    #mermaid-overlay.active {
+      display: flex;
+    }
+    #mermaid-overlay-content {
+      width: 92vw;
+      max-height: 90vh;
+      overflow: auto;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      cursor: default;
+    }
+    #mermaid-overlay-content svg {
+      width: 100% !important;
+      height: auto !important;
+    }
+  </style>
 </BaseLayout>
