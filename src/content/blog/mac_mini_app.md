@@ -9,7 +9,10 @@ category: 胡说八道
 1. chrome
 
 # 工具
-clashx (翻墙)
+1. clashx (翻墙)
+2. cursor
+3. codex
+4. claude code
 
 # 环境
 1. node 环境
