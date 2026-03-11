@@ -1,7 +1,7 @@
 ---
-title: openyouyou 实践(一)
+title: openyouyou 构想(一)
 date: 2026-03-10
-description: openyouyou 实践(一)
+description: openyouyou 构想(一)
 category: 胡说八道
 ---
 
