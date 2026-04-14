@@ -16,7 +16,7 @@ const formattedDate = date.toLocaleDateString('zh-CN', {
 });
 ---
 <BaseLayout title={title} description={description}>
-  <article>
+  <article class="max-w-4xl">
 
     <!-- Back link -->
     <a
@@ -46,7 +46,7 @@ const formattedDate = date.toLocaleDateString('zh-CN', {
     </header>
 
     <!-- Prose content -->
-    <div class="prose prose-stone max-w-2xl">
+    <div class="prose prose-stone max-w-none">
       <slot />
     </div>
 
