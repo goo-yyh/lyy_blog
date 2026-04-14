@@ -15,5 +15,8 @@
     "@vercel/analytics": "^2.0.1",
     "astro": "^5.0.0",
     "tailwindcss": "^4.2.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }
